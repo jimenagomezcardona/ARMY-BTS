@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz ARMY: Hermandad Eterna 💜</title>
+<style>
+body{margin:0;background:#f4edff;color:#2a1450;font-family:system-ui;text-align:center}
+.card{background:#fff;border-radius:20px;padding:20px;margin:16px auto;max-width:500px;box-shadow:0 8px 20px rgba(123,47,214,.15)}
+.btn{width:100%;border:0;border-radius:999px;padding:14px;background:#7b2fd6;color:#fff;font-weight:700;font-size:1.1rem}
+.opt{width:100%;text-align:left;background:#faf5ff;border:2px solid #e6d9ff;border-radius:12px;padding:10px;margin:6px 0}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="card" id="start">
+<h1>Quiz ARMY: Hermandad Eterna 💜</h1>
+<p>Siete corazones, un solo vínculo. 8 preguntas por ronda de 40 sin repetir.</p>
+<button class="btn" onclick="start()">Empezar el quiz</button>
+</div>
+<div class="card hidden" id="quiz">
+<div id="q"></div>
+<div id="opts"></div>
+<button class="btn hidden" id="next" onclick="next()">Siguiente</button>
+</div>
+<div class="card hidden" id="end">
+<h2 id="score"></h2>
+<button class="btn" onclick="start()">Otra ronda</button>
+</div>
+<script>
+const Qs=[
+["¿Cuándo debutó BTS?","13 junio 2013","12 junio 2013","9 julio 2013",0],
+["¿Qué significa ARMY?","Adorable Rep MC for Youth","Amazing Royal Music Youth","Adorable Real Members",0],
+["¿Quién es el líder?","RM","Jin","Suga",0],
+["¿Qué dijo V?","I purple you","I love you","We love you",0],
+["¿Día de ARMY?","9 julio","13 junio","12 junio",0],
+["¿Lightstick?","ARMY Bomb","BTS Bomb","Purple Bomb",0],
+["¿Maknae?","Jungkook","Jimin","V",0],
+["¿Mayor?","Jin","Suga","RM",0]
+];
+let cur=[],i=0,pts=0;
+function start(){cur=[...Qs].sort(()=>.5-Math.random()).slice(0,8);i=0;pts=0;document.getElementById('start').classList.add('hidden');document.getElementById('end').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');show()}
+function show(){document.getElementById('q').innerHTML="<h2>"+(i+1)+"/8 - "+cur[i][0]+"</h2>";let o=document.getElementById('opts');o.innerHTML="";for(let k=1;k<=3;k++){let b=document.createElement('button');b.className='opt';b.innerText=cur[i][k];b.onclick=()=>check(k-1,b);o.appendChild(b)}document.getElementById('next').classList.add('hidden')}
+function check(k,b){let ok=cur[i][3];let all=document.querySelectorAll('.opt');all.forEach(x=>x.disabled=true);if(k==ok){b.style.borderColor="green";pts++}else{b.style.borderColor="red";all[ok].style.borderColor="green"}document.getElementById('next').classList.remove('hidden')}
+function next(){i++;if(i<cur.length)show();else{document.getElementById('quiz').classList.add('hidden');document.getElementById('end').classList.remove('hidden');document.getElementById('score').innerText=pts+"/8 aciertos 💜"}}
+</script>
+</body>
+</html>
